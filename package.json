@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "npm run genratedb && node ./bin/www",
     "genratedb": "mkdir -p ../data1/app && node genDb"
   },
   "dependencies": {
