@@ -6,7 +6,7 @@
   <strong>  git clone </strong><br>
 2) cd to cloned directory<br>
 3)Install dependencies using command: <strong>npm install</strong><br><br>
-4)Genrate Sqlite Database using command : <strong>npm run genratedb</strong>     
+4)Genrate Sqlite Database using command : <strong>npm run genratedb</strong> <br>    
 5)Run npm start to run application<br>
 
 Note: Node version 8.0.0 and above is required since this application uses async/await
