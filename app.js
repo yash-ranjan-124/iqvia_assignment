@@ -22,63 +22,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-let createTableUsers = async function () {
-  let Sqlite = require('./libs/sqliteOrm');
-  try{
-      let  response= await Sqlite.createTable('users',{
-          username:"TEXT PRIMARY KEY",
-          email:"TEXT UNIQUE",
-          firstname:"TEXT",
-          lastname:"TEXT",
-          password:"TEXT",
-          
-      });
-      return response;
-  }
-  catch (err){
-   console.log(err);
-   return err;
-  }
-
-};
-
-/*let createTableSearchData = async function(){
-  let Sqlite = require('./libs/sqlite_orm');
-  try{
-      let  response= await Sqlite.createTable('searches',{
-          uid:"TEXT PRIMARY KEY",
-          location_name:"TEXT NOT NULL UNIQUE",
-          latitude:"TEXT",
-          longitude:"TEXT",
-          location_id:"TEXT",
-      });
-      return response;
-  }
-  catch (err){
-   console.log(err);
-   return err;
-  }
-}*/
-if (!fs.existsSync(path.resolve(__dirname,'../data1/app/app.db'))) {
-  var dirname = path.resolve(__dirname,'../data1/app/app.db');
-  dirname = dirname.split('/');
-  delete dirname[dirname.length-1];
-  dirname = dirname.join('/');
-  shellfs.mkdir('-p', dirname);
-  createTableUsers().then(res=>{
-      console.log(res);
-  }).catch(err=>{
-      console.log(err);
-  });
- /* createTableUserData().then(res=>{
-      console.log(res);
-  }).catch(err=>{
-      console.log(err);
-  });*/
-
-
-}
-
 app.use('/', indexRouter);
 
 
