@@ -3,41 +3,40 @@ let router = express.Router();
 let funct = require('../libs/function');
 let jwt = require("../libs/jwt");
 /*********middleware to authenticate******************* */
-let authenticate = function(req,res,next){
-  if(req.cookies['acc_tkn']){
-    next();
-  }
-  else{
-    res.redirect('/login');
-  }
+let authenticate = function(req, res, next) {
+    if (req.cookies['acc_tkn']) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
 }
 
 /******************************************************************/
 
 
 /*************************login  and register router**********************************/
-router.post('/register',async function(req,res,next){
-  let data = req.body;
-  let response = await funct.insertUser(data);
-  res.json(response);
+router.post('/register', async function(req, res, next) {
+    let data = req.body;
+    let response = await funct.insertUser(data);
+    res.json(response);
 
 });
 
-router.post('/login',async function(req,res,next){
-  let data = req.body;
-  let response = await funct.getUser(data);
-  if(!response['error']){
-    response = jwt.encode(response);
-  }
+router.post('/login', async function(req, res, next) {
+    let data = req.body;
+    let response = await funct.getUser(data);
+    if (!response['error']) {
+        response = jwt.encode(response);
+    }
 
-  res.json(response);
+    res.json(response);
 
 });
 
-router.get('/login',function(req,res){
-  let data = {};
-  data.title = "Login";
-  res.render('login',data);
+router.get('/login', function(req, res) {
+    let data = {};
+    data.title = "Login";
+    res.render('login', data);
 
 });
 
@@ -45,42 +44,48 @@ router.get('/login',function(req,res){
 
 
 /********************************* GET home page.******************* */
-router.get(['/','/home'],authenticate, async (req, res)=> {
-  let access_token = req.cookies['acc_tkn'];
-  let user_data = jwt.decode(access_token);
-  user_data['title'] = "Home";
-  user_data['search_data'] = await funct.getAllSearch(user_data['username']);
-  res.render('home', user_data);
+router.get(['/', '/home'], authenticate, async(req, res) => {
+    let access_token = req.cookies['acc_tkn'];
+    let user_data = jwt.decode(access_token);
+    user_data['title'] = "Home";
+    user_data['search_data'] = await funct.getAllSearch(user_data['username']);
+    res.render('home', user_data);
 });
 
 
 /**************************location data handler*******************************/
 
 
-router.post('/saveSearch',async (req,res)=>{
-  let data = req.body;
-  let response = await funct.insertSearchData(data);
-  res.json(response);
+router.post('/saveSearch', async(req, res) => {
+    let data = req.body;
+    let response = await funct.insertSearchData(data);
+    res.json(response);
 });
 
 
-router.get('/getSearch',async (req,res)=>{
-  let username = req.query.uname;
-  let response = await funct.getSearchData(username);
-  res.json(response);
+router.get('/getSearch', async(req, res) => {
+    let username = req.query.uname;
+    let response = await funct.getSearchData(username);
+    res.json(response);
 });
 
-router.get('/getAllSearch',async (req,res)=>{
-  let username = req.query.uname;
-  let response = await funct.getAllSearch(username);
-  res.json(response);
+router.get('/getAllSearch', async(req, res) => {
+    let username = req.query.uname;
+    let response = await funct.getAllSearch(username);
+    res.json(response);
 });
 
 /*************************logout router***************************************/
-router.get('/logout',(req,res)=>{
-  if(req.cookies['acc_tkn']){
-    res.cookie('acc_tkn',"",{maxAge:-1});
-  }
-  res.redirect('/home');
+router.get('/logout', (req, res) => {
+    if (req.cookies['acc_tkn']) {
+        res.cookie('acc_tkn', "", { maxAge: -1 });
+    }
+    res.redirect('/home');
 });
+
+
+/***********************test api*************************************/
+router.get('/test', (req, res) => {
+    res.send({ error: 0, msg: "version1 deployed" });
+})
 module.exports = router;
