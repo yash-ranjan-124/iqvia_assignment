@@ -85,7 +85,10 @@ router.get('/logout', (req, res) => {
 
 
 /***********************test api*************************************/
-router.get('/test', (req, res) => {
+router.get('/test/v1', (req, res) => {
     res.send({ error: 0, msg: "version1 deployed" });
+})
+router.get('/test/v2', (req, res) => {
+    res.send({ error: 0, msg: "version2 deployed" });
 })
 module.exports = router;
