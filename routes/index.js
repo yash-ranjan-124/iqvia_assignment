@@ -91,4 +91,8 @@ router.get('/test/v1', (req, res) => {
 router.get('/test/v2', (req, res) => {
     res.send({ error: 0, msg: "version2 deployed" });
 })
+
+router.get('/test/v3', (req, res) => {
+    res.send({ error: 0, msg: "v3 deployed" })
+})
 module.exports = router;
